@@ -1,121 +1,138 @@
-#include <iostream>
-#include <string>
-#include <cstdlib>  // for rand() and srand()
-#include <ctime>    // for time()
 
-using namespace std;
 
-// Function to convert decimal to binary
-string decimalToBinary(int num) {
-    if (num == 0) return "0";
-    string binary = "";
-    while (num > 0) {
-        binary = (num % 2 == 0 ? "0" : "1") + binary;
-        num /= 2;
-    }
-    return binary;
-}
+## Explanation of the Code
 
-// Function to convert binary to decimal
-int binaryToDecimal(const string& binStr) {
-    int decimal = 0;
-    for (char bit : binStr) {
-        if (bit != '0' && bit != '1') return -1; // invalid input
-        decimal = decimal * 2 + (bit - '0');
-    }
-    return decimal;
-}
+### 1. Functions for Number System Conversion
 
-// Function to convert decimal to hexadecimal
-string decimalToHexadecimal(int num) {
-    if (num == 0) return "0";
-    string hexDigits = "0123456789ABCDEF";
-    string hex = "";
-    while (num > 0) {
-        hex = hexDigits[num % 16] + hex;
-        num /= 16;
-    }
-    return hex;
-}
+I created **four conversion functions** to handle conversions between decimal, binary, and hexadecimal systems:
 
-// Function to convert hexadecimal to decimal
-int hexadecimalToDecimal(const string& hexStr) {
-    int decimal = 0;
-    for (char c : hexStr) {
-        decimal *= 16;
-        if (c >= '0' && c <= '9') decimal += c - '0';
-        else if (c >= 'A' && c <= 'F') decimal += c - 'A' + 10;
-        else if (c >= 'a' && c <= 'f') decimal += c - 'a' + 10;
-        else return -1; // invalid input
-    }
-    return decimal;
-}
+---
 
-// Demo function: generate random integer and convert to binary
-void demo() {
-    int num = rand() % 100; // random number between 0 and 99
-    cout << "Random number: " << num << endl;
-    cout << "Binary representation: " << decimalToBinary(num) << endl;
-}
+#### a. `decimalToBinary(int num)`
 
-int main() {
-    srand(time(0)); // seed random number generator
+* Converts a decimal integer to its binary string representation.
+* Uses repeated division by 2 and prepends either `"0"` or `"1"` to build the binary string.
+* Example:
 
-    while (true) {
-        cout << "\nConversion Menu:\n";
-        cout << "1. Convert Decimal to Binary\n";
-        cout << "2. Convert Binary to Decimal\n";
-        cout << "3. Convert Decimal to Hexadecimal\n";
-        cout << "4. Convert Hexadecimal to Decimal\n";
-        cout << "5. Demo (generate random number and convert to binary)\n";
-        cout << "6. Exit\n";
+  * Input: `13`
+  * Output: `"1101"`
 
-        cout << "Enter your choice (1-6): ";
-        int choice;
-        cin >> choice;
+---
 
-        if (choice == 1) {
-            cout << "Enter a decimal number: ";
-            int dec;
-            cin >> dec;
-            if (dec < 0) cout << "Invalid decimal number (must be non-negative)." << endl;
-            else cout << "Binary representation: " << decimalToBinary(dec) << endl;
-        }
-        else if (choice == 2) {
-            cout << "Enter a binary number: ";
-            string bin;
-            cin >> bin;
-            int dec = binaryToDecimal(bin);
-            if (dec == -1) cout << "Invalid binary number." << endl;
-            else cout << "Decimal equivalent: " << dec << endl;
-        }
-        else if (choice == 3) {
-            cout << "Enter a decimal number: ";
-            int dec;
-            cin >> dec;
-            if (dec < 0) cout << "Invalid decimal number (must be non-negative)." << endl;
-            else cout << "Hexadecimal representation: " << decimalToHexadecimal(dec) << endl;
-        }
-        else if (choice == 4) {
-            cout << "Enter a hexadecimal number: ";
-            string hex;
-            cin >> hex;
-            int dec = hexadecimalToDecimal(hex);
-            if (dec == -1) cout << "Invalid hexadecimal number." << endl;
-            else cout << "Decimal equivalent: " << dec << endl;
-        }
-        else if (choice == 5) {
-            demo();
-        }
-        else if (choice == 6) {
-            cout << "Exiting the program." << endl;
-            break;
-        }
-        else {
-            cout << "Invalid choice, please select between 1 and 6." << endl;
-        }
-    }
+#### b. `binaryToDecimal(const string& binStr)`
 
-    return 0;
-}
+* Converts a binary string (e.g., `"1101"`) back to a decimal integer.
+* Iterates over each character and checks if it's `'0'` or `'1'` (invalid input returns -1).
+* Multiplies the accumulated decimal by 2 and adds the current bit.
+* Example:
+
+  * Input: `"1101"`
+  * Output: `13`
+
+---
+
+#### c. `decimalToHexadecimal(int num)`
+
+* Converts a decimal integer to its hexadecimal string.
+* Uses repeated division by 16, using a string `"0123456789ABCDEF"` to map digits to hex characters.
+* Example:
+
+  * Input: `254`
+  * Output: `"FE"`
+
+---
+
+#### d. `hexadecimalToDecimal(const string& hexStr)`
+
+* Converts a hexadecimal string to a decimal integer.
+* Iterates through each hex character, converts it to its decimal value, and accumulates.
+* Accepts both uppercase and lowercase hex digits.
+* Example:
+
+  * Input: `"FE"`
+  * Output: `254`
+
+---
+
+### 2. Demo Function: `demo()`
+
+* Generates a random number between 0 and 99.
+* Prints the number and its binary representation using `decimalToBinary`.
+* Demonstrates the usage of conversion functions in a simple context.
+
+---
+
+### 3. Menu System in `main()`
+
+* Displays a menu with six options:
+
+  1. Decimal to Binary
+  2. Binary to Decimal
+  3. Decimal to Hexadecimal
+  4. Hexadecimal to Decimal
+  5. Demo (random number conversion)
+  6. Exit
+
+* Takes user input and calls the corresponding function.
+
+* Validates inputs (e.g., checks for non-negative decimal input and valid characters in binary/hex).
+
+* Loops indefinitely until the user chooses to exit.
+
+---
+
+### Example Session
+
+```
+Conversion Menu:
+1. Convert Decimal to Binary
+2. Convert Binary to Decimal
+3. Convert Decimal to Hexadecimal
+4. Convert Hexadecimal to Decimal
+5. Demo (generate random number and convert to binary)
+6. Exit
+Enter your choice (1-6): 1
+Enter a decimal number: 45
+Binary representation: 101101
+
+Conversion Menu:
+...
+Enter your choice (1-6): 4
+Enter a hexadecimal number: 1A3F
+Decimal equivalent: 6719
+
+Conversion Menu:
+...
+Enter your choice (1-6): 5
+Random number: 27
+Binary representation: 11011
+```
+
+---
+
+## Challenges and How I Addressed Them
+
+### 1. Input Validation
+
+* Binary and hexadecimal inputs can be tricky because users might enter invalid characters.
+* I added checks to detect invalid inputs and return an error (printing `"Invalid binary number"` or `"Invalid hexadecimal number"`).
+* C++ strings don't have built-in base conversion like some higher-level languages, so I had to manually implement validation.
+
+### 2. Conversion Logic
+
+* Implementing decimal to binary and hex required building the string from remainder calculations and prepending digits.
+* Edge cases like `0` needed special handling to avoid returning empty strings.
+
+### 3. Menu Interaction and Input Types
+
+* C++ `cin` can sometimes behave unexpectedly if input types don't match or leftover newline characters remain in the buffer.
+* Kept inputs straightforward (integers for choices and decimals, strings for binary/hex) to reduce complexity.
+* Added checks for invalid menu choices.
+
+### 4. Random Number Generation
+
+* Used `srand(time(0))` once at the start of the program to seed the random number generator.
+* The demo function uses `rand() % 100` to keep numbers in a reasonable range.
+
+
 
